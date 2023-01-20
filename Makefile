@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/28 16:29:13 by adbenoit          #+#    #+#              #
-#    Updated: 2023/01/17 17:20:16 by adbenoit         ###   ########.fr        #
+#    Updated: 2023/01/20 12:37:14 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ DIRS			:= $(OBJ_DIR) $(addprefix $(OBJ_DIR)/, $(SUB_DIR))
 
 # FILES
 NAME			:= lemipc
-SRC				:=	main.c
+SRC				:=	main.c \
+					map.c
 SUB_SRC			:= parsing.c
 SRC				+= $(addprefix parsing/, $(SUB_SRC))
 
@@ -51,6 +52,7 @@ B_WHITE 		= \033[1;37m
 
 # STATUS
 DELETE			= "\ \ "$(B_MAGENTA)"DELETE"$(NONE)"\ \ "
+RESET			= "\ \ \ "$(B_YELLOW)"RESET"$(NONE)"\ \ "
 OK				= "\ \ \ \ "$(B_GREEN)"OK"$(NONE)"\ \ \ \ "
 KO				= "\ \ \ \ "$(B_RED)"KO"$(NONE)"\ \ \ \ "
 LINK_OK			= "\ \ \ "$(B_YELLOW)"LINK"$(NONE)"\ \ \ "
@@ -59,8 +61,11 @@ COMP			= "\ "$(B_CYAN)"COMPILING"$(NONE)""
 
 # MAKEFILE
 $(NAME): $(OBJ)
+	@rm -Rf shared_mem
+	@touch shared_mem
+	@echo "$(CL_LINE)[$(RESET)] shared_mem"
 	@$(CC) $(CFLAGS) -o $@ $(OBJ)
-	@echo "$(CL_LINE)[$(OK)] $@"
+	@echo "[$(OK)] $@"
 
 all: $(NAME)
 
@@ -76,7 +81,7 @@ clean:
 	@echo "[$(DELETE)] $(BUILD)"
 
 fclean: clean
-	@rm -Rf $(LINK_NAME) $(NAME) $(TEST_EXEC)
+	@rm -Rf $(LINK_NAME) $(NAME) $(TEST_EXEC) shared_mem
 	@echo "[$(DELETE)] $(NAME)"
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/17 18:01:10 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/20 12:29:47 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,8 @@
 # define EMPTY_TILE 0
 # define LEMIPC_OK 0
 # define LEMIPC_KO 1
+
+int clear_map(void);
+int display_map(char *map);
+
 #endif
