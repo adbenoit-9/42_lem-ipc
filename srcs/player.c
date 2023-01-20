@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:32:12 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/20 16:22:47 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:42:00 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ t_player    get_ennemy(char *map, t_player *player) {
 
     ennemy.x = -1;
     ennemy.y = -1;
+    ennemy.team = 0;
     for (int i = MAP_INDEX(player->x, player->y);
             i < MAP_LENGTH * MAP_WIDTH && ennemy.x == -1; i++) {
-        if (map[i] != player->team + '0') {
+        if (map[i] != player->team + '0' && map[i] != '0') {
             ennemy.y = i / MAP_WIDTH; 
             ennemy.x = i % ennemy.y;
             ennemy.team = map[i] - '0';
@@ -88,14 +89,14 @@ int play(char *map, t_player *player) {
     else {
         ennemy = get_ennemy(map, player);
 #ifdef DEBUG
-        print_player(player);
-        print_player(&ennemy);
+        print_player(__FILE__, __LINE__, player);
+        print_player(__FILE__, __LINE__, &ennemy);
 #endif
         if (ennemy.x != -1) {
             move(map, player, &ennemy);
         }
 #ifdef DEBUG
-        print_player(player);
+        print_player(__FILE__, __LINE__, player);
 #endif
     }
     return (state);

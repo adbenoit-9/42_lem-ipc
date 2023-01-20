@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/20 16:17:10 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:29:05 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include "parsing.h"
 # include "debug.h"
 
-# define MAP_LENGTH 20
-# define MAP_WIDTH  20
+# define MAP_LENGTH 4
+# define MAP_WIDTH  4
 # define MAP_INDEX(x, y)    (MAP_LENGTH * (y) + (x))
 
 # define EMPTY_TILE 0
