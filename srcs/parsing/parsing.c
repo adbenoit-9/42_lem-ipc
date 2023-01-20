@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:52:08 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/17 17:20:00 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/20 15:34:37 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int set_team(char *team, t_player *player) {
         }
         else {
             player->team = (uint8_t)team_id;
+            player->x = -1;
+            player->y = -1;
         }
     }
     return (ret);

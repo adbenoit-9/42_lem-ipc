@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/28 16:29:13 by adbenoit          #+#    #+#              #
-#    Updated: 2023/01/20 12:37:14 by adbenoit         ###   ########.fr        #
+#    Updated: 2023/01/20 16:20:15 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,10 @@ DIRS			:= $(OBJ_DIR) $(addprefix $(OBJ_DIR)/, $(SUB_DIR))
 # FILES
 NAME			:= lemipc
 SRC				:=	main.c \
-					map.c
+					map.c \
+					lemipc.c \
+					player.c \
+					debug.c
 SUB_SRC			:= parsing.c
 SRC				+= $(addprefix parsing/, $(SUB_SRC))
 

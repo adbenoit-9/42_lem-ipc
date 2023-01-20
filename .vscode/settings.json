@@ -4,6 +4,8 @@
         "types.h": "c",
         "shm.h": "c",
         "ipc.h": "c",
-        "ipctypes.h": "c"
+        "ipctypes.h": "c",
+        "lemipc.h": "c",
+        "parsing.h": "c"
     }
 }
