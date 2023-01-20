@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:32:12 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/20 16:59:05 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/20 17:37:00 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int play(char *map, t_player *player) {
 
     if (isdead(map, player) != true) {
         state = DEAD;
+        map[MAP_INDEX(player->x, player->y)] = '0';
     }
     else {
         ennemy = get_ennemy(map, player);
