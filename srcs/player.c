@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:32:12 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/20 16:42:00 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:59:05 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_player    get_ennemy(char *map, t_player *player) {
 
     ennemy.x = -1;
     ennemy.y = -1;
-    ennemy.team = 0;
+    ennemy.team = -1;
     for (int i = MAP_INDEX(player->x, player->y);
             i < MAP_LENGTH * MAP_WIDTH && ennemy.x == -1; i++) {
         if (map[i] != player->team + '0' && map[i] != '0') {
@@ -48,10 +48,15 @@ t_player    get_ennemy(char *map, t_player *player) {
         }
     }
     for (int i = MAP_INDEX(player->x, player->y);
-            i < 0 && ennemy.x == -1; i--) {
+            i >= 0 && ennemy.x == -1; i--) {
         if (map[i] != player->team + '0' && map[i] != '0') {
-            ennemy.y = i / MAP_WIDTH; 
-            ennemy.x = i % ennemy.y;
+            ennemy.y = i / MAP_WIDTH;
+            if (i != 0) {
+                ennemy.x = i % ennemy.y;
+            }
+            else {
+                ennemy.x = 0;
+            }
             ennemy.team = map[i] - '0';
         }
     }
@@ -82,7 +87,6 @@ int play(char *map, t_player *player) {
     int state = 0;
     t_player    ennemy;
 
-    display_map(map);
     if (isdead(map, player) != true) {
         state = DEAD;
     }

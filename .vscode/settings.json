@@ -6,6 +6,7 @@
         "ipc.h": "c",
         "ipctypes.h": "c",
         "lemipc.h": "c",
-        "parsing.h": "c"
+        "parsing.h": "c",
+        "typeinfo": "c"
     }
 }

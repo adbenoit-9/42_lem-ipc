@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/20 14:00:05 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:51:36 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void    *get_shared_mem()
             perror("shmat");
         }
         else if (isset == 0) {
-            memset((char *)ptr, '0', MAP_LENGTH * MAP_WIDTH);   
+            memset((char *)ptr, '0', MAP_LENGTH * MAP_WIDTH);
+            ((char *)ptr)[0] = '1';
         }
     }
     return (ptr);    

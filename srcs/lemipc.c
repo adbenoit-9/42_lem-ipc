@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/20 15:41:59 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:51:53 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@ int lemipc(char *map, t_player *player) {
 
     while (player->x == -1 && player->y == -1) {
         gettimeofday(&tv, NULL);
-        if (map[player->x * player->y] == '0') {
+        if (map[MAP_INDEX(tv.tv_sec % MAP_LENGTH, tv.tv_usec % MAP_WIDTH)] == '0') {
             player->x = tv.tv_sec % MAP_LENGTH;
             player->y = tv.tv_usec % MAP_WIDTH;
+#ifdef DEBUG
+            print_player(__FILE__, __LINE__, player);
+#endif
             map[MAP_INDEX(player->x, player->y)] = '0' + player->team;
-        }    
+        }
     }
     ret = play(map, player);
-    map[player->x * player->y] = '0' + player->team;
     return (ret);
 }
