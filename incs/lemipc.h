@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/22 18:55:05 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 19:07:51 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 
 # define LEMIPC_OK 0
 # define LEMIPC_KO 1
+# define LEMIPC_ENDED 2
 
 typedef struct  s_ipc_env {
     char    map[MAP_LENGTH * MAP_WIDTH];

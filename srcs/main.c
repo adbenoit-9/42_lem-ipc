@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/22 19:03:05 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 19:08:48 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void    handle_signal(int signal)
 }
 
 int handle_game(t_ipc_env *env) {
-    char team;
+    char    team;
+    int     ret = LEMIPC_OK;
     
     display_map(env->map);
     if (env->status == GAME_NOT_STARTED) {
@@ -36,10 +37,11 @@ int handle_game(t_ipc_env *env) {
         }
         if (count_team == 1) {
             env->status = GAME_OVER;
-            printf("Team %c won !", team);
+            printf("Team %c won !\n", team);
+            ret = LEMIPC_ENDED;
         }
     }
-    return (LEMIPC_OK);
+    return (ret);
 }
 
 void    clean_env(int id, t_ipc_env *env) {
@@ -71,10 +73,10 @@ int main(int ac, char **av)
             ret = LEMIPC_KO;
         }
         else {
-            while (ret != GAME_OVER) {
+            while (ret != LEMIPC_ENDED) {
                 sem_wait(env->sem);
                 if (ac == 1) {
-                    handle_game(env);
+                    ret = handle_game(env);
                 }
                 else {
                     play_game(env, &player);
@@ -82,7 +84,7 @@ int main(int ac, char **av)
                 ret = env->status;
                 sem_post(env->sem);
             }
-            clean_env(id, env);
+            ret = LEMIPC_OK;
         }
     }
     return (ret);
