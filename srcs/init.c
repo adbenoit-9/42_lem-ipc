@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:45:28 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/22 18:55:52 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 19:29:58 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ void    *init_env(key_t key, t_ipc_env *env) {
         perror("msgget");
         env = (void *)-1;
     }
-    sem_unlink("env");
-    env->sem = sem_open("env", O_CREAT, S_IRWXU, 1);
-    if (env->sem == SEM_FAILED) {
+    env->sem = semget(key, 1, IPC_CREAT);
+    if (env->sem == -1) {
         perror("sem_open");
         env = (void *)-1;
     }

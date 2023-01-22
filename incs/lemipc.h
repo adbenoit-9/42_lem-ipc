@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/22 19:07:51 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 19:27:30 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <sys/stat.h>
-# include <semaphore.h>
+# include <sys/sem.h>
 # include "parsing.h"
 # include "debug.h"
 
@@ -45,7 +45,7 @@ typedef struct  s_ipc_env {
     int     msqid;
     int8_t  status;
     int     nb_proc;
-    sem_t   *sem;
+    int     sem;
     
 }               t_ipc_env;
 

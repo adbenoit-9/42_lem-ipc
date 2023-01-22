@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/22 19:08:48 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 19:29:46 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int handle_game(t_ipc_env *env) {
 void    clean_env(int id, t_ipc_env *env) {
     --env->nb_proc;
     if (env->nb_proc == 0) {
-        sem_close(env->sem);
+        // semctl(env->sem, IPC_RMID, 0);
         shmdt(env);
         shmctl(id, IPC_RMID, 0);
     }
@@ -74,7 +74,6 @@ int main(int ac, char **av)
         }
         else {
             while (ret != LEMIPC_ENDED) {
-                sem_wait(env->sem);
                 if (ac == 1) {
                     ret = handle_game(env);
                 }
@@ -82,7 +81,6 @@ int main(int ac, char **av)
                     play_game(env, &player);
                 }
                 ret = env->status;
-                sem_post(env->sem);
             }
             ret = LEMIPC_OK;
         }
