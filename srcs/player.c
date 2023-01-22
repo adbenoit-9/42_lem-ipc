@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:32:12 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/20 17:37:00 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 11:57:54 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,12 @@ t_player    get_ennemy(char *map, t_player *player) {
             i < MAP_LENGTH * MAP_WIDTH && ennemy.x == -1; i++) {
         if (map[i] != player->team + '0' && map[i] != '0') {
             ennemy.y = i / MAP_WIDTH; 
-            ennemy.x = i % ennemy.y;
+           if (i != 0) {
+                ennemy.x = i % ennemy.y;
+            }
+            else {
+                ennemy.x = 0;
+            }
             ennemy.team = map[i] - '0';
         }
     }

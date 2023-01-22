@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/20 17:47:41 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 13:04:42 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int game(char *map, t_player *player) {
             map[MAP_INDEX(player->x, player->y)] = '0' + player->team;
         }
     }
-    ret = play(map, player);
+    if (map[STATUS_INDEX] == GAME_IN_PROGRESS) {
+        ret = play(map, player);
+    }
     return (ret);
 }

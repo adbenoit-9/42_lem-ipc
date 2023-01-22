@@ -53,3 +53,5 @@ dkms.conf
 
 lemipc
 shared_mem
+.Vs*
+.build

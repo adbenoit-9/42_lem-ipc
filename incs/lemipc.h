@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/20 17:47:33 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 12:58:06 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,14 @@
 # define MAP_LENGTH 4
 # define MAP_WIDTH  4
 # define MAP_INDEX(x, y)    (MAP_LENGTH * (y) + (x))
+# define STATUS_INDEX       MAP_LENGTH * MAP_WIDTH
 
-# define EMPTY_TILE 0
+# define EMPTY_TILE '0'
+
+# define GAME_NOT_STARTED 0
+# define GAME_IN_PROGRESS 1
+# define GAME_OVER 2
+
 # define LEMIPC_OK 0
 # define LEMIPC_KO 1
 

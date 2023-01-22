@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:52:35 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/20 14:02:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 12:56:32 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 # define PARS_STOP	-1
 # define PARS_OK	0
+
 # define E_BADARG	1
 # define E_NODARG	2
 # define E_BADTEAM	3

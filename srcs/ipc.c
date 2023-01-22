@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:45:28 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/20 17:50:23 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 12:59:13 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void    *setup_ipc(t_player *player)
         perror("msgget");
         ptr = (void *)-1;
     }
-    id = shmget(key, MAP_LENGTH * MAP_WIDTH, IPC_CREAT | IPC_EXCL | 0660);
+    id = shmget(key, MAP_LENGTH * MAP_WIDTH + 1, IPC_CREAT | IPC_EXCL | 0660);
     if (errno == EEXIST) {
         isset = 1;
-        id = shmget(key, MAP_LENGTH * MAP_WIDTH, 0660);
+        id = shmget(key, MAP_LENGTH * MAP_WIDTH + 1, 0660);
     }
     else if (id == -1)
      {
@@ -42,6 +42,7 @@ void    *setup_ipc(t_player *player)
         }
         else if (isset == 0) {
             memset((char *)ptr, '0', MAP_LENGTH * MAP_WIDTH);
+            ((char *)ptr)[STATUS_INDEX] = GAME_NOT_STARTED;
         }
     }
     return (ptr);    
