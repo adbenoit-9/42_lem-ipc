@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:08:39 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/20 17:50:10 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 17:26:14 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct s_player {
     int     msqid;
 }   t_player;
 
-int play(char *map, t_player *player);
+bool        isdead(char *map, t_player *player);
+t_player    get_ennemy(char *map, t_player *player);
+void        move(char *map, t_player *player, t_player *ennemy);
 
 #endif

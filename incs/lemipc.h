@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/22 12:58:06 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 17:30:17 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,17 @@
 # define LEMIPC_OK 0
 # define LEMIPC_KO 1
 
+typedef struct  s_ipc_env {
+    char    map[MAP_LENGTH * MAP_WIDTH];
+    int     msqid;
+    int8_t  status;
+    int     nb_proc;
+    
+}               t_ipc_env;
+
 int     clear_map(void);
 int     display_map(char *map);
-int     game(char *map, t_player *player);
-void    *setup_ipc(t_player *player);
+int     play_game(t_ipc_env *env, t_player *player);
+void    *setup_ipc(int *id);
 
 #endif

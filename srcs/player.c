@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:32:12 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/22 11:57:54 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 17:27:55 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ t_player    get_ennemy(char *map, t_player *player) {
 
     ennemy.x = -1;
     ennemy.y = -1;
-    ennemy.team = -1;
     for (int i = MAP_INDEX(player->x, player->y);
             i < MAP_LENGTH * MAP_WIDTH && ennemy.x == -1; i++) {
         if (map[i] != player->team + '0' && map[i] != '0') {
@@ -72,42 +71,23 @@ void    move(char *map, t_player *player, t_player *ennemy) {
     t_player tmp;
 
     tmp = *player;
-    if (player->x > ennemy->x && map[MAP_INDEX(player->x - 1, player-> y)] == '0') {
+    if (player->x > ennemy->x &&
+            map[MAP_INDEX(player->x - 1, player-> y)] == EMPTY_TILE) {
         --player->x;
     }
-    else if (player->x < ennemy->x && map[MAP_INDEX(player->x + 1, player-> y)] == '0') {
+    else if (player->x < ennemy->x &&
+            map[MAP_INDEX(player->x + 1, player-> y)] == EMPTY_TILE) {
         ++player->x;
     }
-    else if (player->y > ennemy->y && map[MAP_INDEX(player->x, player->y - 1)] == '0') {
+    else if (player->y > ennemy->y &&
+            map[MAP_INDEX(player->x, player->y - 1)] == EMPTY_TILE) {
         --player->y;
     }
-    else if (player->y < ennemy->y && map[MAP_INDEX(player->x, player->y + 1)] == '0') {
+    else if (player->y < ennemy->y &&
+            map[MAP_INDEX(player->x, player->y + 1)] == EMPTY_TILE) {
         ++player->y;
     }
-    map[MAP_INDEX(tmp.x, tmp.y)] = '0';
+    map[MAP_INDEX(tmp.x, tmp.y)] = EMPTY_TILE;
     map[MAP_INDEX(player->x, player->y)] = player->team + '0';
 }
 
-int play(char *map, t_player *player) {
-    int state = 0;
-    t_player    ennemy;
-
-    if (isdead(map, player) != true) {
-        state = DEAD;
-        map[MAP_INDEX(player->x, player->y)] = '0';
-    }
-    else {
-        ennemy = get_ennemy(map, player);
-#ifdef DEBUG
-        print_player(__FILE__, __LINE__, player);
-        print_player(__FILE__, __LINE__, &ennemy);
-#endif
-        if (ennemy.x != -1) {
-            move(map, player, &ennemy);
-        }
-#ifdef DEBUG
-        print_player(__FILE__, __LINE__, player);
-#endif
-    }
-    return (state);
-}
