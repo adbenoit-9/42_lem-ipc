@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/28 16:29:13 by adbenoit          #+#    #+#              #
-#    Updated: 2023/01/20 17:49:14 by adbenoit         ###   ########.fr        #
+#    Updated: 2023/01/22 18:54:49 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,13 @@ OBJ_DIR 		:= $(BUILD)/obj
 SUB_DIR			:= parsing
 DIRS			:= $(OBJ_DIR) $(addprefix $(OBJ_DIR)/, $(SUB_DIR))
 
+SHARED_FILE		:= shared_memory
 
 # FILES
 NAME			:= lemipc
 SRC				:=	main.c \
 					map.c \
-					ipc.c \
+					init.c \
 					game.c \
 					player.c \
 					debug.c
@@ -65,9 +66,9 @@ COMP			= "\ "$(B_CYAN)"COMPILING"$(NONE)""
 
 # MAKEFILE
 $(NAME): $(OBJ)
-	@rm -Rf shared_mem
-	@touch shared_mem
-	@echo "$(CL_LINE)[$(RESET)] shared_mem"
+	@rm -Rf $(SHARED_FILE)
+	@touch $(SHARED_FILE)
+	@echo "$(CL_LINE)[$(RESET)] $(SHARED_FILE)"
 	@$(CC) $(CFLAGS) -o $@ $(OBJ)
 	@echo "[$(OK)] $@"
 
@@ -85,7 +86,7 @@ clean:
 	@echo "[$(DELETE)] $(BUILD)"
 
 fclean: clean
-	@rm -Rf $(LINK_NAME) $(NAME) $(TEST_EXEC) shared_mem
+	@rm -Rf $(LINK_NAME) $(NAME) $(TEST_EXEC) $(SHARED_FILE)
 	@echo "[$(DELETE)] $(NAME)"
 
 re: fclean all

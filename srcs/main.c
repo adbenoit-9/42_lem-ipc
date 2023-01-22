@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/22 17:33:00 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 19:03:05 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void    handle_signal(int signal)
 }
 
 int handle_game(t_ipc_env *env) {
+    char team;
+    
     display_map(env->map);
     if (env->status == GAME_NOT_STARTED) {
         env->status = GAME_IN_PROGRESS;
@@ -28,11 +30,13 @@ int handle_game(t_ipc_env *env) {
         int count_team = 0;
         for (int i = 0; i < MAP_LENGTH * MAP_WIDTH && count_team < 2; i++) {
             if (env->map[i] != EMPTY_TILE) {
+                team = env->map[i];
                 ++count_team;
             }
         }
-        if (count_team < 2) {
+        if (count_team == 1) {
             env->status = GAME_OVER;
+            printf("Team %c won !", team);
         }
     }
     return (LEMIPC_OK);
@@ -41,6 +45,7 @@ int handle_game(t_ipc_env *env) {
 void    clean_env(int id, t_ipc_env *env) {
     --env->nb_proc;
     if (env->nb_proc == 0) {
+        sem_close(env->sem);
         shmdt(env);
         shmctl(id, IPC_RMID, 0);
     }
@@ -66,13 +71,16 @@ int main(int ac, char **av)
             ret = LEMIPC_KO;
         }
         else {
-            while (env->status != GAME_OVER) {
+            while (ret != GAME_OVER) {
+                sem_wait(env->sem);
                 if (ac == 1) {
                     handle_game(env);
                 }
                 else {
                     play_game(env, &player);
                 }
+                ret = env->status;
+                sem_post(env->sem);
             }
             clean_env(id, env);
         }

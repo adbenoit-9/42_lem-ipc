@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/22 17:30:17 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 18:55:05 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,13 @@
 # include <sys/shm.h>
 # include <sys/msg.h>
 # include <errno.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <semaphore.h>
 # include "parsing.h"
 # include "debug.h"
 
+# define SHARED_FILE   "shared_memory"
 # define MAP_LENGTH 4
 # define MAP_WIDTH  4
 # define MAP_INDEX(x, y)    (MAP_LENGTH * (y) + (x))
@@ -40,6 +44,7 @@ typedef struct  s_ipc_env {
     int     msqid;
     int8_t  status;
     int     nb_proc;
+    sem_t   *sem;
     
 }               t_ipc_env;
 

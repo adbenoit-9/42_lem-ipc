@@ -52,6 +52,6 @@ Mkfile.old
 dkms.conf
 
 lemipc
-shared_mem
-.Vs*
+shared_memory
+.vscode*
 .build

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ipc.c                                              :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:45:28 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/22 17:30:07 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/22 18:55:52 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ void    *init_env(key_t key, t_ipc_env *env) {
         perror("msgget");
         env = (void *)-1;
     }
+    sem_unlink("env");
+    env->sem = sem_open("env", O_CREAT, S_IRWXU, 1);
+    if (env->sem == SEM_FAILED) {
+        perror("sem_open");
+        env = (void *)-1;
+    }
     return (env);
 }
 
@@ -30,7 +36,7 @@ void    *setup_ipc(int *id)
     int         isset = 0;
     key_t       key;
     
-    key = ftok("shared_mem", 1);
+    key = ftok(SHARED_FILE, 1);
     *id = shmget(key, sizeof(t_ipc_env), IPC_CREAT | IPC_EXCL | 0660);
     if (errno == EEXIST) {
         isset = 1;
