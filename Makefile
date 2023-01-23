@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/28 16:29:13 by adbenoit          #+#    #+#              #
-#    Updated: 2023/01/23 17:58:56 by adbenoit         ###   ########.fr        #
+#    Updated: 2023/01/23 18:26:19 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,11 +65,8 @@ COMP			= "\ "$(B_CYAN)"COMPILING"$(NONE)""
 
 # MAKEFILE
 $(NAME): $(OBJ)
-	@rm -Rf $(SHARED_FILE)
-	@touch $(SHARED_FILE)
-	@echo "$(CL_LINE)[$(RESET)] $(SHARED_FILE)"
 	@$(CC) $(CFLAGS) -o $@ $(OBJ)
-	@echo "[$(OK)] $@"
+	@echo "$(CL_LINE)[$(OK)] $@"
 
 all: $(NAME)
 
