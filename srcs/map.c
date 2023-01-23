@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 12:29:07 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/22 16:52:21 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/23 18:14:18 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int clear_map(void) {
         strncpy(&erase[i * 8], "\033[A\033[2K", 8);
     }
     write(STDOUT_FILENO, erase, 8 * n);
-    return (LEMIPC_OK);
+    return (ok);
 }
 
 int display_map(char *map) {
@@ -35,7 +35,5 @@ int display_map(char *map) {
         dmap[j + i + 1] = 0;
     }
     write(STDOUT_FILENO, dmap, (MAP_LENGTH + 1) * MAP_WIDTH);
-    sleep(1);
-    clear_map();
-    return (LEMIPC_OK);
+    return (ok);
 }

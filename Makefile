@@ -6,13 +6,13 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/28 16:29:13 by adbenoit          #+#    #+#              #
-#    Updated: 2023/01/22 18:54:49 by adbenoit         ###   ########.fr        #
+#    Updated: 2023/01/23 17:58:56 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COMPILATION
 CC		= gcc
-CFLAGS 	= -Wall -Wextra -Werror
+CFLAGS 	= -Wall -Wextra -Werror -g2 -fsanitize=address
 IFLAGS 	= -I./incs
 
 UNAME	:= $(shell uname)
@@ -34,7 +34,6 @@ NAME			:= lemipc
 SRC				:=	main.c \
 					map.c \
 					init.c \
-					game.c \
 					player.c \
 					debug.c
 SUB_SRC			:= parsing.c
