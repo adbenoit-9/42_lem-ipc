@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/28 16:29:13 by adbenoit          #+#    #+#              #
-#    Updated: 2023/01/24 16:33:25 by adbenoit         ###   ########.fr        #
+#    Updated: 2023/01/24 17:52:33 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,6 +92,9 @@ run: $(NAME)
 
 debug: CFLAGS += -DDEBUG
 debug: re
+
+log: CFLAGS += -DLOG
+log: re
 
 debug_make:
 	@echo $(SRC)

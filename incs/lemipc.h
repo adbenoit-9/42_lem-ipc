@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 17:22:43 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:04:38 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@
 # include "debug.h"
 
 # define SHARED_FILE        "shared_memory"
-# define MAP_LENGTH         20
-# define MAP_WIDTH          20
-# define MAP_SIZE           (MAP_LENGTH * MAP_WIDTH)
-# define MAP_INDEX(x, y)    (MAP_LENGTH * (y) + (x))
+# define MAP_WIDTH         20
+# define MAP_HEIGH          20
+# define MAP_LENGTH           (MAP_WIDTH * MAP_HEIGH)
+# define MAP_INDEX(x, y)    (MAP_WIDTH * (y) + (x))
 
 # define EMPTY_TILE '0'
 
@@ -47,7 +47,7 @@ enum status {
 };
 
 typedef struct  s_ipc_env {
-    char    map[MAP_LENGTH * MAP_WIDTH];
+    char    map[MAP_WIDTH * MAP_HEIGH];
     int     msqid;
     int8_t  status;
     int     nb_proc;

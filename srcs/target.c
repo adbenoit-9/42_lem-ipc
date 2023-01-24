@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:20:29 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 17:24:43 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:04:38 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ static void send_target(int id, t_player *target, int team) {
     msg.team = team;
     ret = msgsnd(id, &msg, size, IPC_NOWAIT);
     if (ret >= 0) {
+#ifdef LOG
         printf("[SEND] target team %d on (%d, %d)\n", target->team, target->x, target->y);
+#endif
     }
 }
 
@@ -36,7 +38,9 @@ static t_player recv_target(int id, int team) {
     ret = msgrcv(id, &msg, size, team, IPC_NOWAIT);
     if (ret >= 0) {
         memcpy(&target, msg.target, sizeof(t_player));
+#ifdef LOG
         printf("[RECV] target team %d on (%d, %d)\n", target.team, target.x, target.y);
+#endif
     }
     return (target);
 }
@@ -53,7 +57,7 @@ static bool  get_target_new_coor(char *map, t_player *target) {
                         MAP_INDEX(target->x - 1, target->y + 1)};  // SUD-OUEST
 
     for (int i = 0; i < 8 && isfound == false; i++) {
-        if (neighbors[i] >= 0 && neighbors[i] < MAP_SIZE &&
+        if (neighbors[i] >= 0 && neighbors[i] < MAP_LENGTH &&
                 map[neighbors[i]] == target->team + '0') {
             *target = index_to_player(map, neighbors[i]);
             isfound = true;
@@ -68,7 +72,7 @@ static t_player get_new_target(t_ipc_env *env, t_player *player) {
     target.x = -1;    
     target.y = -1;    
     for (int i = MAP_INDEX(player->x, player->y);
-            i < MAP_LENGTH * MAP_WIDTH && target.x == -1; i++) {
+            i < MAP_WIDTH * MAP_HEIGH && target.x == -1; i++) {
         if (env->map[i] != player->team + '0' && env->map[i] != '0') {
             target = index_to_player(env->map, i);
             target.team = env->map[i] - '0';

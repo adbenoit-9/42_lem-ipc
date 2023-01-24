@@ -6,14 +6,14 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:45:28 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 15:02:49 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:04:25 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "lemipc.h"
 
 void    *init_env(key_t key, t_ipc_env *env) {
-    memset(env->map, '0', MAP_LENGTH * MAP_WIDTH);
+    memset(env->map, '0', MAP_WIDTH * MAP_HEIGH);
     env->status = not_started;
     env->nb_proc = 1;
     env->msqid = msgget(key, IPC_CREAT | IPC_EXCL | 0666);

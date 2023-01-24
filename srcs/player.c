@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 17:24:01 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:06:16 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_player index_to_player(char *map, int index) {
     t_player player;
 
-    player.y = index / MAP_WIDTH; 
+    player.y = index / MAP_HEIGH; 
     if (player.y != 0) {
         player.x = index % player.y;
     }
@@ -39,8 +39,8 @@ static bool isdead(char *map, t_player *player) {
 
     for (int i = 0; i < 8 && isdead != true; i++) {
         for (int j = i + 1; j < 8 && isdead != true; j++) {
-            if (neighbors[i] >= 0 && neighbors[j] >= 0 && neighbors[i] < MAP_SIZE &&
-                    neighbors[j] < MAP_SIZE && map[neighbors[i]] != EMPTY_TILE &&
+            if (neighbors[i] >= 0 && neighbors[j] >= 0 && neighbors[i] < MAP_LENGTH &&
+                    neighbors[j] < MAP_LENGTH && map[neighbors[i]] != EMPTY_TILE &&
                     map[neighbors[i]] != player->team &&
                     map[neighbors[i]] == map[neighbors[j]]) {
                 isdead = true;
@@ -63,20 +63,28 @@ static void    move(char *map, t_player *player, t_player *target) {
     dist[1] = abs(player->y - target->y);
     dir[0] = player->x > target->x ? -1 : 1;
     dir[1] = player->y > target->y ? -1 : 1;
-    if (dist[0] >= dist[1]) {
-        if (map[MAP_INDEX(player->x + dir[0], player-> y)] == EMPTY_TILE) {
+    if (dist[0] > dist[1] || (dist[0] == dist[1] && rand() % 1 == 1)) {
+        if (map[MAP_INDEX(player->x + dir[0], player->y)] == EMPTY_TILE) {
            player->x += dir[0]; 
         }
-        else if (map[MAP_INDEX(player->x, player-> y + dir[1])] == EMPTY_TILE) {   
+        else if (map[MAP_INDEX(player->x, player->y + dir[1])] == EMPTY_TILE) {   
            player->y += dir[1]; 
+        }
+        else if (player->y - dir[1] >= 0 && player->y - dir[1] < MAP_HEIGH &&
+            map[MAP_INDEX(player->x, player->y - dir[1])] == EMPTY_TILE){
+            player->y -= dir[1]; 
         }
     }
-    else if (dist[0] < dist[1]) {
-        if (map[MAP_INDEX(player->x, player-> y + dir[1])] == EMPTY_TILE) {   
+    else {
+        if (map[MAP_INDEX(player->x, player->y + dir[1])] == EMPTY_TILE) {   
            player->y += dir[1]; 
         }
-        else if (map[MAP_INDEX(player->x + dir[0], player-> y)] == EMPTY_TILE) {
+        else if (map[MAP_INDEX(player->x + dir[0], player->y)] == EMPTY_TILE) {
            player->x += dir[0]; 
+        }
+        else if (player->x - dir[0] >= 0 && player->x - dir[0] < MAP_WIDTH &&
+            map[MAP_INDEX(player->x - dir[0], player->y)] == EMPTY_TILE){
+            player->x -= dir[0]; 
         }
     }
     map[MAP_INDEX(tmp.x, tmp.y)] = EMPTY_TILE;
@@ -112,9 +120,9 @@ int play_game(t_ipc_env *env, t_player *player) {
 
     while (player->x == -1 && player->y == -1) {
         gettimeofday(&tv, NULL);
-        if (env->map[MAP_INDEX(tv.tv_sec % MAP_LENGTH, tv.tv_usec % MAP_WIDTH)] == EMPTY_TILE) {
-            player->x = tv.tv_sec % MAP_LENGTH;
-            player->y = tv.tv_usec % MAP_WIDTH;
+        if (env->map[MAP_INDEX(tv.tv_sec % MAP_WIDTH, tv.tv_usec % MAP_HEIGH)] == EMPTY_TILE) {
+            player->x = tv.tv_sec % MAP_WIDTH;
+            player->y = tv.tv_usec % MAP_HEIGH;
 #ifdef DEBUG
             print_player(__FILE__, __LINE__, player);
 #endif

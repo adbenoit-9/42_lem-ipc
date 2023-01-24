@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 15:49:12 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:04:25 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int game_manager(t_ipc_env *env) {
     if (env->status == not_started) {
         env->status = in_progress;
     }
-    for (int i = 0; i < MAP_LENGTH * MAP_WIDTH && count_team < 2; i++) {
+    for (int i = 0; i < MAP_WIDTH * MAP_HEIGH && count_team < 2; i++) {
         if (env->map[i] != EMPTY_TILE && env->map[i] != team) {
             team = env->map[i];
             ++count_team;
