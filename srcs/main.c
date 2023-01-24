@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 18:04:25 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:15:22 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,56 +21,7 @@ void    handle_signal(int signal)
     }
 }
 
-int game_manager(t_ipc_env *env) {
-    char    team = 0;
-    int     ret = ok;
-    int     count_team = 0;
-    
-    display_map(env->map);
-    if (env->status == not_started) {
-        env->status = in_progress;
-    }
-    for (int i = 0; i < MAP_WIDTH * MAP_HEIGH && count_team < 2; i++) {
-        if (env->map[i] != EMPTY_TILE && env->map[i] != team) {
-            team = env->map[i];
-            ++count_team;
-        }
-    }
-    if (count_team == 1) {
-        env->status = game_over;
-        ret = game_over;
-        printf("\033[33;1m[GAME OVER] Team %c won !\033[0m\n", team);
-    }
-    else {
-        sleep(1);
-        clear_map();
-    }
-    return (ret);
-}
-
-void    clean_env(int id, t_ipc_env *env) {
-    struct sembuf sem_lock = {0, -1 , SEM_UNDO};
-    struct sembuf sem_unlock = {0, 1 , SEM_UNDO};
-    
-    semop(env->sem, &sem_lock, 1);
-    --env->nb_proc;
-    if (env->nb_proc == 0) {
-        msgctl(env->msqid, IPC_RMID, NULL);
-        semop(env->sem, &sem_unlock, 1);
-        semctl(env->sem, 0, IPC_RMID);
-        shmdt(env);
-        shmctl(id, IPC_RMID, 0);
-    }
-    else {
-        semop(env->sem, &sem_unlock, 1);
-        shmdt(env);
-#ifdef DEBUG
-        printf("clean\n");
-#endif
-    }
-}
-
-void    print_status(int status) {
+static void print_status(int status) {
     char    *str[] = {
         "\033[33;1m[QUIT] Game interrupted.\033[0m",
         "\033[33;1m[QUIT] You left the game.\033[0m",
@@ -97,7 +48,7 @@ int main(int ac, char **av)
     ret = parsing(&av[1], &player);
     signal(SIGINT, &handle_signal);
     if (ret == PARS_OK) {
-        env = setup_ipc(&id);
+        env = setup_env(&id);
         if ((int64_t)env == -1) {
             ret = ko;
         }

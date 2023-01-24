@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 18:04:38 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:13:39 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ enum status {
 };
 
 typedef struct  s_ipc_env {
-    char    map[MAP_WIDTH * MAP_HEIGH];
+    char    map[MAP_LENGTH];
     int     msqid;
     int8_t  status;
     int     nb_proc;
@@ -58,8 +58,10 @@ typedef struct  s_ipc_env {
 int         clear_map(void);
 int         display_map(char *map);
 int         play_game(t_ipc_env *env, t_player *player);
-void        *setup_ipc(int *id);
+void        *setup_env(int *id);
 t_player    get_target(t_ipc_env *env, t_player *player);
 t_player    index_to_player(char *map, int index);
+void        clean_env(int id, t_ipc_env *env);
+int         game_manager(t_ipc_env *env);
 
 #endif

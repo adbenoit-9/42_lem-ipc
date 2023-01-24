@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/28 16:29:13 by adbenoit          #+#    #+#              #
-#    Updated: 2023/01/24 17:52:33 by adbenoit         ###   ########.fr        #
+#    Updated: 2023/01/24 18:13:57 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,10 @@ SHARED_FILE		:= shared_memory
 NAME			:= lemipc
 SRC				:=	main.c \
 					map.c \
-					init.c \
+					env.c \
 					player.c \
 					target.c \
+					game.c \
 					debug.c
 SUB_SRC			:= parsing.c
 SRC				+= $(addprefix parsing/, $(SUB_SRC))

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:20:29 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 18:04:38 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:09:38 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static t_player get_new_target(t_ipc_env *env, t_player *player) {
     target.x = -1;    
     target.y = -1;    
     for (int i = MAP_INDEX(player->x, player->y);
-            i < MAP_WIDTH * MAP_HEIGH && target.x == -1; i++) {
+            i < MAP_LENGTH && target.x == -1; i++) {
         if (env->map[i] != player->team + '0' && env->map[i] != '0') {
             target = index_to_player(env->map, i);
             target.team = env->map[i] - '0';

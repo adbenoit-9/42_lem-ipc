@@ -6,13 +6,13 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 18:06:16 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:14:39 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemipc.h"
 
-t_player index_to_player(char *map, int index) {
+t_player    index_to_player(char *map, int index) {
     t_player player;
 
     player.y = index / MAP_HEIGH; 
@@ -53,7 +53,7 @@ static bool isdead(char *map, t_player *player) {
     return (isdead);
 }
 
-static void    move(char *map, t_player *player, t_player *target) {
+static void move(char *map, t_player *player, t_player *target) {
     t_player tmp;
     int     dist[2];
     int     dir[2];
@@ -94,7 +94,7 @@ static void    move(char *map, t_player *player, t_player *target) {
 #endif    
 }
 
-static int play_turn(t_ipc_env *env, t_player *player) {
+static int  play_turn(t_ipc_env *env, t_player *player) {
     int         ret = ok;
     t_player    target;
 
