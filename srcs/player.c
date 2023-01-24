@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/23 17:59:25 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:23:36 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,26 +74,35 @@ static t_player    get_ennemy(char *map, t_player *player) {
 
 static void    move(char *map, t_player *player, t_player *ennemy) {
     t_player tmp;
+    int     dist[2];
+    int     dir[2];
 
     tmp = *player;
-    if (player->x > ennemy->x &&
-            map[MAP_INDEX(player->x - 1, player-> y)] == EMPTY_TILE) {
-        --player->x;
+    dist[0] = abs(player->x - ennemy->x);
+    dist[1] = abs(player->y - ennemy->y);
+    dir[0] = player->x > ennemy->x ? -1 : 1;
+    dir[1] = player->y > ennemy->y ? -1 : 1;
+    if (dist[0] >= dist[1]) {
+        if (map[MAP_INDEX(player->x + dir[0], player-> y)] == EMPTY_TILE) {
+           player->x += dir[0]; 
+        }
+        else if (map[MAP_INDEX(player->x, player-> y + dir[1])] == EMPTY_TILE) {   
+           player->y += dir[1]; 
+        }
     }
-    else if (player->x < ennemy->x &&
-            map[MAP_INDEX(player->x + 1, player-> y)] == EMPTY_TILE) {
-        ++player->x;
-    }
-    else if (player->y > ennemy->y &&
-            map[MAP_INDEX(player->x, player->y - 1)] == EMPTY_TILE) {
-        --player->y;
-    }
-    else if (player->y < ennemy->y &&
-            map[MAP_INDEX(player->x, player->y + 1)] == EMPTY_TILE) {
-        ++player->y;
+    else if (dist[0] < dist[1]) {
+        if (map[MAP_INDEX(player->x, player-> y + dir[1])] == EMPTY_TILE) {   
+           player->y += dir[1]; 
+        }
+        else if (map[MAP_INDEX(player->x + dir[0], player-> y)] == EMPTY_TILE) {
+           player->x += dir[0]; 
+        }
     }
     else {
-        
+        if (map[MAP_INDEX(player->x + dir[0], player-> y + dir[1])] == EMPTY_TILE) {   
+           player->x += dir[0]; 
+           player->y += dir[1]; 
+        }
     }
     map[MAP_INDEX(tmp.x, tmp.y)] = EMPTY_TILE;
     map[MAP_INDEX(player->x, player->y)] = player->team + '0';
@@ -107,7 +116,7 @@ static int play_turn(t_ipc_env *env, t_player *player) {
     t_player    ennemy;
 
     if (isdead(env->map, player) == true) {
-        ret = ended;
+        ret = player_lose;
         env->map[MAP_INDEX(player->x, player->y)] = EMPTY_TILE;
     }
     else {
@@ -139,6 +148,12 @@ int play_game(t_ipc_env *env, t_player *player) {
     }
     if (env->status == in_progress) {
         ret = play_turn(env, player);
+    }
+    else if (env->status == game_over) {
+        ret = player_won;
+    }
+    else if (env->status == interrupted) {
+        ret = interrupted;
     }
     return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/23 18:21:21 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:24:11 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void    handle_signal(int signal)
 {
     if (signal == SIGINT) {
         g_signal_catch = 1;
-        printf("Quit.\n");
     }
 }
 
@@ -38,9 +37,9 @@ int game_manager(t_ipc_env *env) {
         }
     }
     if (count_team == 1) {
-        env->status = over;
-        printf("Team %c won !\n", team);
-        ret = ended;
+        env->status = game_over;
+        ret = game_over;
+        printf("lemipc: Team %c won !\n", team);
     }
     else {
         sleep(1);
@@ -70,6 +69,22 @@ void    clean_env(int id, t_ipc_env *env) {
     }
 }
 
+void    print_status(int status) {
+    char    *str[] = {
+        "Error",
+        "Game over",
+        "Interrupted game",
+        "You left the game",
+        "Congratulations, you won the game !",
+        "Loser..."
+    };
+    for (int i = 0; i < 6; i++) {
+        if (status == i + ko){
+            printf("lempic : %s\n", str[i]);
+        }
+    }
+}
+
 int main(int ac, char **av)
 {
     int         ret = ok;
@@ -88,26 +103,29 @@ int main(int ac, char **av)
             ret = ko;
         }
         else {
-            while (ret != ended && g_signal_catch == 0) {
+            while (ret < ko) {
                 if (semop(env->sem, &sem_lock, 1) == -1) {
                     perror("semop");
                 }
                 if (ac == 1) {
                     ret = game_manager(env);
+                    if (g_signal_catch == 1) {
+                        env->status = interrupted;
+                        ret = interrupted;
+                    }
                 }
                 else {
                     if (g_signal_catch == 1 && player.x != -1) {
                         env->map[MAP_INDEX(player.x, player.y)] = EMPTY_TILE;
+                        ret = player_left;
                     }
                     else {
                         ret = play_game(env, &player);
                     }
                 }
-                if (env->status == over) {
-                    ret = ended;
-                }
                 semop(env->sem, &sem_unlock, 1);
             }
+            print_status(ret);
             ret = ok;
             clean_env(id, env);
         }

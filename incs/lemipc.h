@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/23 16:34:21 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:44:53 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,23 @@
 # include "debug.h"
 
 # define SHARED_FILE        "shared_memory"
-# define MAP_LENGTH         4
-# define MAP_WIDTH          4
+# define MAP_LENGTH         20
+# define MAP_WIDTH          20
 # define MAP_SIZE           (MAP_LENGTH * MAP_WIDTH)
 # define MAP_INDEX(x, y)    (MAP_LENGTH * (y) + (x))
 
 # define EMPTY_TILE '0'
 
-enum game_status {
+enum status {
+    ok,
     not_started,
     in_progress,
-    over
-};
-
-enum lemipc_status {
-    ok,
     ko,
-    ended
+    game_over,
+    interrupted,
+    player_left,
+    player_won,
+    player_lose
 };
 
 typedef struct  s_ipc_env {
