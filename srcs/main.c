@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 12:24:11 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 15:49:12 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int game_manager(t_ipc_env *env) {
     if (count_team == 1) {
         env->status = game_over;
         ret = game_over;
-        printf("lemipc: Team %c won !\n", team);
+        printf("\033[33;1m[GAME OVER] Team %c won !\033[0m\n", team);
     }
     else {
         sleep(1);
@@ -55,6 +55,7 @@ void    clean_env(int id, t_ipc_env *env) {
     semop(env->sem, &sem_lock, 1);
     --env->nb_proc;
     if (env->nb_proc == 0) {
+        msgctl(env->msqid, IPC_RMID, NULL);
         semop(env->sem, &sem_unlock, 1);
         semctl(env->sem, 0, IPC_RMID);
         shmdt(env);
@@ -71,16 +72,14 @@ void    clean_env(int id, t_ipc_env *env) {
 
 void    print_status(int status) {
     char    *str[] = {
-        "Error",
-        "Game over",
-        "Interrupted game",
-        "You left the game",
-        "Congratulations, you won the game !",
-        "Loser..."
+        "\033[33;1m[QUIT] Game interrupted.\033[0m",
+        "\033[33;1m[QUIT] You left the game.\033[0m",
+        "\033[32;1m[GAME OVER] Congratulations, you won the game !\033[0m",
+        "\033[31;1m[GAME OVER] You lose the game.\33[0m"
     };
-    for (int i = 0; i < 6; i++) {
-        if (status == i + ko){
-            printf("lempic : %s\n", str[i]);
+    for (int i = 0; i < 4; i++) {
+        if (status == i + interrupted){
+            printf("%s\n", str[i]);
         }
     }
 }

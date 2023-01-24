@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:08:39 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/23 17:59:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 15:28:18 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct s_player {
     int     x;
     int     y;
     uint8_t team;
-    int     msqid;
 }   t_player;
 
 #endif

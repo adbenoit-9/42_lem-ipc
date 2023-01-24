@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/28 16:29:13 by adbenoit          #+#    #+#              #
-#    Updated: 2023/01/23 18:26:19 by adbenoit         ###   ########.fr        #
+#    Updated: 2023/01/24 16:33:25 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC				:=	main.c \
 					map.c \
 					init.c \
 					player.c \
+					target.c \
 					debug.c
 SUB_SRC			:= parsing.c
 SRC				+= $(addprefix parsing/, $(SUB_SRC))

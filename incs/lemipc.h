@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 11:44:53 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:27:45 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/sem.h>
 # include <signal.h>
 # include "parsing.h"
+# include "msg.h"
 # include "debug.h"
 
 # define SHARED_FILE        "shared_memory"
@@ -54,9 +55,11 @@ typedef struct  s_ipc_env {
     
 }               t_ipc_env;
 
-int     clear_map(void);
-int     display_map(char *map);
-int     play_game(t_ipc_env *env, t_player *player);
-void    *setup_ipc(int *id);
+int         clear_map(void);
+int         display_map(char *map);
+int         play_game(t_ipc_env *env, t_player *player);
+void        *setup_ipc(int *id);
+t_player    get_target(t_ipc_env *env, t_player *player);
+t_player    index_to_player(int index);
 
 #endif

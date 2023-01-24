@@ -6,11 +6,24 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 12:23:36 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:39:03 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemipc.h"
+
+t_player index_to_player(int index) {
+    t_player player;
+
+    player.y = index / MAP_WIDTH; 
+    if (player.y != 0) {
+        player.x = index % player.y;
+    }
+    else {
+        player.x = 0;
+    }
+    return (player);
+}
 
 static bool isdead(char *map, t_player *player) {
     bool    isdead = false;
@@ -26,7 +39,8 @@ static bool isdead(char *map, t_player *player) {
     for (int i = 0; i < 8 && isdead != true; i++) {
         for (int j = i + 1; j < 8 && isdead != true; j++) {
             if (neighbors[i] >= 0 && neighbors[j] >= 0 && neighbors[i] < MAP_SIZE &&
-                    neighbors[i] < MAP_SIZE && map[neighbors[i]] != EMPTY_TILE &&
+                    neighbors[j] < MAP_SIZE && map[neighbors[i]] != EMPTY_TILE &&
+                    map[neighbors[i]] != player->team &&
                     map[neighbors[i]] == map[neighbors[j]]) {
                 isdead = true;
 #ifdef DEBUG
@@ -38,50 +52,16 @@ static bool isdead(char *map, t_player *player) {
     return (isdead);
 }
 
-static t_player    get_ennemy(char *map, t_player *player) {    
-    t_player    ennemy;
-
-    ennemy.x = -1;
-    ennemy.y = -1;
-    for (int i = MAP_INDEX(player->x, player->y);
-            i < MAP_LENGTH * MAP_WIDTH && ennemy.x == -1; i++) {
-        if (map[i] != player->team + '0' && map[i] != '0') {
-            ennemy.y = i / MAP_WIDTH; 
-           if (ennemy.y != 0) {
-                ennemy.x = i % ennemy.y;
-            }
-            else {
-                ennemy.x = 0;
-            }
-            ennemy.team = map[i] - '0';
-        }
-    }
-    for (int i = MAP_INDEX(player->x, player->y);
-            i >= 0 && ennemy.x == -1; i--) {
-        if (map[i] != player->team + '0' && map[i] != '0') {
-            ennemy.y = i / MAP_WIDTH;
-            if (ennemy.y != 0) {
-                ennemy.x = i % ennemy.y;
-            }
-            else {
-                ennemy.x = 0;
-            }
-            ennemy.team = map[i] - '0';
-        }
-    }
-    return (ennemy);
-}
-
-static void    move(char *map, t_player *player, t_player *ennemy) {
+static void    move(char *map, t_player *player, t_player *target) {
     t_player tmp;
     int     dist[2];
     int     dir[2];
 
     tmp = *player;
-    dist[0] = abs(player->x - ennemy->x);
-    dist[1] = abs(player->y - ennemy->y);
-    dir[0] = player->x > ennemy->x ? -1 : 1;
-    dir[1] = player->y > ennemy->y ? -1 : 1;
+    dist[0] = abs(player->x - target->x);
+    dist[1] = abs(player->y - target->y);
+    dir[0] = player->x > target->x ? -1 : 1;
+    dir[1] = player->y > target->y ? -1 : 1;
     if (dist[0] >= dist[1]) {
         if (map[MAP_INDEX(player->x + dir[0], player-> y)] == EMPTY_TILE) {
            player->x += dir[0]; 
@@ -98,12 +78,6 @@ static void    move(char *map, t_player *player, t_player *ennemy) {
            player->x += dir[0]; 
         }
     }
-    else {
-        if (map[MAP_INDEX(player->x + dir[0], player-> y + dir[1])] == EMPTY_TILE) {   
-           player->x += dir[0]; 
-           player->y += dir[1]; 
-        }
-    }
     map[MAP_INDEX(tmp.x, tmp.y)] = EMPTY_TILE;
     map[MAP_INDEX(player->x, player->y)] = player->team + '0';
 #ifdef DEBUG
@@ -113,19 +87,19 @@ static void    move(char *map, t_player *player, t_player *ennemy) {
 
 static int play_turn(t_ipc_env *env, t_player *player) {
     int         ret = ok;
-    t_player    ennemy;
+    t_player    target;
 
     if (isdead(env->map, player) == true) {
         ret = player_lose;
         env->map[MAP_INDEX(player->x, player->y)] = EMPTY_TILE;
     }
     else {
-        ennemy = get_ennemy(env->map, player);
+        target = get_target(env, player);
 #ifdef DEBUG
-        print_player(__FILE__, __LINE__, &ennemy);
+        print_player(__FILE__, __LINE__, &target);
 #endif
-        if (ennemy.x != -1) {
-            move(env->map, player, &ennemy);
+        if (target.x != -1) {
+            move(env->map, player, &target);
         }
     }
     return (ret);
