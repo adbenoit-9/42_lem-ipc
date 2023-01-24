@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:45:28 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/23 15:39:00 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:26:15 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void    *init_env(key_t key, t_ipc_env *env) {
     memset(env->map, '0', MAP_LENGTH * MAP_WIDTH);
     env->status = not_started;
     env->nb_proc = 1;
-    env->msqid = msgget(key, IPC_CREAT);
+    env->msqid = msgget(key, IPC_CREAT | IPC_EXCL | 0666);
     if (env->msqid == -1) {
         perror("msgget");
         env = (void *)-1;
