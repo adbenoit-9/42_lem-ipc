@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:52:08 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/22 16:58:39 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:16:40 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int set_team(char *team, t_player *player) {
     }
     if (ret == PARS_OK) {
         team_id = atoi(team);
-        if (team_id < 0 || team_id > MAX_TEAM) {
+        if (team_id < 1 || team_id > MAX_TEAM) {
             ret = E_BADTEAM;
         }
         else {
@@ -59,7 +59,7 @@ int print_help(char *str, t_player *player) {
     (void)player;
     printf("Usage\n./lemipc [options]\n\nOptions\n");
     printf("--help         print help and exit\n");
-    printf("--team         define the team of the player (must be a number between 0 and 150)\n");
+    printf("--team         define the team of the player (must be a number between 1 and 9)\n");
     return (PARS_STOP);
 }
 

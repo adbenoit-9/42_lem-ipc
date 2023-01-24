@@ -6,13 +6,13 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 16:39:03 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:24:01 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemipc.h"
 
-t_player index_to_player(int index) {
+t_player index_to_player(char *map, int index) {
     t_player player;
 
     player.y = index / MAP_WIDTH; 
@@ -22,6 +22,7 @@ t_player index_to_player(int index) {
     else {
         player.x = 0;
     }
+    player.team = map[index] - '0';
     return (player);
 }
 

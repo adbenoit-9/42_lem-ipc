@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:20:29 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 16:33:36 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:24:43 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,11 @@ static bool  get_target_new_coor(char *map, t_player *target) {
                         MAP_INDEX(target->x + 1, target->y + 1),   // SUD-EST
                         MAP_INDEX(target->x - 1, target->y + 1)};  // SUD-OUEST
 
-    for (int i = 0; i < 8 && isfound != true; i++) {
+    for (int i = 0; i < 8 && isfound == false; i++) {
         if (neighbors[i] >= 0 && neighbors[i] < MAP_SIZE &&
-                map[neighbors[i]] == target->team) {
-            *target = index_to_player(neighbors[i]);
+                map[neighbors[i]] == target->team + '0') {
+            *target = index_to_player(map, neighbors[i]);
+            isfound = true;
         }
     }
     return (isfound);
@@ -69,14 +70,14 @@ static t_player get_new_target(t_ipc_env *env, t_player *player) {
     for (int i = MAP_INDEX(player->x, player->y);
             i < MAP_LENGTH * MAP_WIDTH && target.x == -1; i++) {
         if (env->map[i] != player->team + '0' && env->map[i] != '0') {
-            target = index_to_player(i);
+            target = index_to_player(env->map, i);
             target.team = env->map[i] - '0';
         }
     }
     for (int i = MAP_INDEX(player->x, player->y);
             i >= 0 && target.x == -1; i--) {
         if (env->map[i] != player->team + '0' && env->map[i] != '0') {
-            target = index_to_player(i);
+            target = index_to_player(env->map, i);
             target.team = env->map[i] - '0';
         }
     }
@@ -90,7 +91,7 @@ t_player    get_target(t_ipc_env *env, t_player *player) {
     if (target.x == -1) {
         target = get_new_target(env, player);
     }
-    else if (env->map[MAP_INDEX(target.x, target.y)] != target.team) {
+    else if (env->map[MAP_INDEX(target.x, target.y)] != target.team + '0') {
         if (get_target_new_coor(env->map, &target) == false) {
             target = get_new_target(env, player);
         }
