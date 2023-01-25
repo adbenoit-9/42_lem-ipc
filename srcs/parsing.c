@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:52:08 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 17:16:40 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:18:16 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ int parsing(char **av, t_player *player) {
             }
         }
     }
-    ret = ret == PARS_STOP ? PARS_OK : ret;
-    if (ret != PARS_OK) {
+    if (ret > PARS_OK) {
         if (ret == E_NODARG) {
             print_error(ret, &av[i - 2][2]);
         }

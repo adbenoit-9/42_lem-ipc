@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 18:15:22 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:42:55 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int     g_signal_catch = 0;
 
 void    handle_signal(int signal)
 {
-    if (signal == SIGINT) {
-        g_signal_catch = 1;
-    }
+    (void)signal;
+    g_signal_catch = 1;
 }
 
 static void print_status(int status) {
@@ -46,39 +45,61 @@ int main(int ac, char **av)
     
     
     ret = parsing(&av[1], &player);
-    signal(SIGINT, &handle_signal);
     if (ret == PARS_OK) {
+        signal(SIGINT, &handle_signal);
+        signal(SIGKILL, &handle_signal);
+        signal(SIGABRT, &handle_signal);
+        signal(SIGFPE, &handle_signal);
+        signal(SIGSEGV, &handle_signal);
+        signal(SIGTERM, &handle_signal);
+        signal(SIGQUIT, &handle_signal);
         env = setup_env(&id);
         if ((int64_t)env == -1) {
             ret = ko;
         }
         else {
             while (ret < ko) {
-                if (semop(env->sem, &sem_lock, 1) == -1) {
-                    perror("semop");
-                }
-                if (ac == 1) {
-                    ret = game_manager(env);
-                    if (g_signal_catch == 1) {
-                        env->status = interrupted;
-                        ret = interrupted;
+                ret = semop(env->sem, &sem_lock, 1);
+                if (ret == -1) {
+                    if (errno == EINTR) {
+#ifdef DEBUG
+                    perror("[WARNING] semop");
+#endif
+                    }
+                    else {
+                        ret = ko;
+                        perror("semop");
                     }
                 }
                 else {
-                    if (g_signal_catch == 1 && player.x != -1) {
-                        env->map[MAP_INDEX(player.x, player.y)] = EMPTY_TILE;
-                        ret = player_left;
+                    if (ac == 1) {
+                        ret = game_manager(env);
+                        if (g_signal_catch == 1) {
+                            env->status = interrupted;
+                            ret = interrupted;
+                        }
                     }
                     else {
-                        ret = play_game(env, &player);
+                        if (g_signal_catch == 1 && player.x != -1) {
+                            env->map[coor_to_index(player.x, player.y)] = EMPTY_TILE;
+                            ret = player_left;
+                        }
+                        else {
+                            ret = play_game(env, &player);
+                        }
                     }
+                    if (semop(env->sem, &sem_unlock, 1) == -1) {
+#ifdef DEBUG
+                        perror("[WARNING] semop");
+#endif
                 }
-                semop(env->sem, &sem_unlock, 1);
+                }
             }
             print_status(ret);
             ret = ok;
             clean_env(id, env);
         }
     }
+    ret = ret == PARS_STOP ? ok : ret;
     return (ret);
 }

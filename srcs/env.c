@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:45:28 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 18:11:25 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:04:37 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,12 @@ void    clean_env(int id, t_ipc_env *env) {
         semctl(env->sem, 0, IPC_RMID);
         shmdt(env);
         shmctl(id, IPC_RMID, 0);
+#ifdef DEBUG
+        printf("[CLEAN] ipc ressources\n");
+#endif
     }
     else {
         semop(env->sem, &sem_unlock, 1);
         shmdt(env);
-#ifdef DEBUG
-        printf("clean\n");
-#endif
     }
 }

@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/28 16:29:13 by adbenoit          #+#    #+#              #
-#    Updated: 2023/01/24 18:13:57 by adbenoit         ###   ########.fr        #
+#    Updated: 2023/01/25 16:20:14 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,9 +37,7 @@ SRC				:=	main.c \
 					player.c \
 					target.c \
 					game.c \
-					debug.c
-SUB_SRC			:= parsing.c
-SRC				+= $(addprefix parsing/, $(SUB_SRC))
+					parsing.c
 
 OBJ				:= $(SRC:%.c=$(OBJ_DIR)/%.o)
 
@@ -91,7 +89,7 @@ re: fclean all
 
 run: $(NAME)
 
-debug: CFLAGS += -DDEBUG
+debug: CFLAGS += -DDEBUG -DLOG
 debug: re
 
 log: CFLAGS += -DLOG

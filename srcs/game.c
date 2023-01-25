@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:13:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 18:13:29 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 15:08:04 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int game_manager(t_ipc_env *env) {
     if (count_team == 1) {
         env->status = game_over;
         ret = game_over;
-        printf("\033[33;1m[GAME OVER] Team %c won !\033[0m\n", team);
+        printf("\033[33;1m[GAME OVER] The winner is the team %c.\033[0m\n", team);
     }
     else {
         sleep(1);

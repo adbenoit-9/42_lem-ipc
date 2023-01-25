@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 18:13:39 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:07:51 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,13 @@
 # include <signal.h>
 # include "parsing.h"
 # include "msg.h"
-# include "debug.h"
 
-# define SHARED_FILE        "shared_memory"
-# define MAP_WIDTH         20
-# define MAP_HEIGH          20
-# define MAP_LENGTH           (MAP_WIDTH * MAP_HEIGH)
-# define MAP_INDEX(x, y)    (MAP_WIDTH * (y) + (x))
+# define SHARED_FILE    "shared_memory"
+# define MAP_WIDTH      20
+# define MAP_HEIGH      20
+# define MAP_LENGTH     (MAP_WIDTH * MAP_HEIGH)
 
-# define EMPTY_TILE '0'
+# define EMPTY_TILE     '0'
 
 enum status {
     ok,
@@ -63,5 +61,6 @@ t_player    get_target(t_ipc_env *env, t_player *player);
 t_player    index_to_player(char *map, int index);
 void        clean_env(int id, t_ipc_env *env);
 int         game_manager(t_ipc_env *env);
+int         coor_to_index(int x, int y);
 
 #endif

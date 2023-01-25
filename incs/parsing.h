@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:52:35 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/23 16:15:14 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:19:40 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 # define EM_BADARG	"lemipc: invalid argument: \'%s\'\n"
 # define EM_NOARG	"lemipc: option requires an argument -- \'%s\'\n"
-# define EM_BADTEAM	"lemipc:  invalid argument: \'%s\': 0 <= value <= %d\n"
+# define EM_BADTEAM	"lemipc:  invalid argument: \'%s\': 1 <= value <= %d\n"
 
 # define MAX_TEAM	(uint8_t)9
 
