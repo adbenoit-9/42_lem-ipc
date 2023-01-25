@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 18:52:00 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 19:00:32 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int main(int ac, char **av)
         else {
             while (ret < ko) {
                 ret = lemipc(env, &player);
-                if (ret < ko) {
+                if (ret < ko && (player.x != -1 || player.team == 0)) {
                     sleep(1);
                 }
             }
