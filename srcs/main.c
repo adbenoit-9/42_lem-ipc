@@ -6,15 +6,15 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 16:42:55 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:37:43 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemipc.h"
 
-int     g_signal_catch = 0;
+int g_signal_catch = 0;
 
-void    handle_signal(int signal)
+static void handle_signal(int signal)
 {
     (void)signal;
     g_signal_catch = 1;
@@ -34,16 +34,52 @@ static void print_status(int status) {
     }
 }
 
+static int lemipc(t_ipc_env *env, t_player *player) {
+    int             ret = ok;
+    struct sembuf   sem_lock = {0, -1 , SEM_UNDO};
+    struct sembuf   sem_unlock = {0, 1 , SEM_UNDO};
+
+    ret = semop(env->sem, &sem_lock, 1);
+    if (ret == -1) {
+        if (errno == EINTR) {
+#ifdef DEBUG
+        perror("[WARNING] semop");
+#endif
+        }
+        else {
+            ret = ko;
+            perror("semop");
+        }
+    }
+    else if (player->team == 0) {
+        ret = game_manager(env);
+        if (g_signal_catch == 1) {
+            env->status = interrupted;
+            ret = interrupted;
+        }
+        semop(env->sem, &sem_unlock, 1);
+    }
+    else {
+        if (g_signal_catch == 1 && player->x != -1) {
+            env->map[coor_to_index(player->x, player->y)] = EMPTY_TILE;
+            ret = player_left;
+        }
+        else {
+            ret = play_game(env, player);
+        }
+        semop(env->sem, &sem_unlock, 1);
+    }
+    return (ret);
+}
+
 int main(int ac, char **av)
 {
     int         ret = ok;
     t_player    player;
     t_ipc_env   *env;
     int         id = 0;
-    struct sembuf sem_lock = {0, -1 , SEM_UNDO};
-    struct sembuf sem_unlock = {0, 1 , SEM_UNDO};
     
-    
+    (void)ac;
     ret = parsing(&av[1], &player);
     if (ret == PARS_OK) {
         signal(SIGINT, &handle_signal);
@@ -59,41 +95,7 @@ int main(int ac, char **av)
         }
         else {
             while (ret < ko) {
-                ret = semop(env->sem, &sem_lock, 1);
-                if (ret == -1) {
-                    if (errno == EINTR) {
-#ifdef DEBUG
-                    perror("[WARNING] semop");
-#endif
-                    }
-                    else {
-                        ret = ko;
-                        perror("semop");
-                    }
-                }
-                else {
-                    if (ac == 1) {
-                        ret = game_manager(env);
-                        if (g_signal_catch == 1) {
-                            env->status = interrupted;
-                            ret = interrupted;
-                        }
-                    }
-                    else {
-                        if (g_signal_catch == 1 && player.x != -1) {
-                            env->map[coor_to_index(player.x, player.y)] = EMPTY_TILE;
-                            ret = player_left;
-                        }
-                        else {
-                            ret = play_game(env, &player);
-                        }
-                    }
-                    if (semop(env->sem, &sem_unlock, 1) == -1) {
-#ifdef DEBUG
-                        perror("[WARNING] semop");
-#endif
-                }
-                }
+                ret = lemipc(env, &player);
             }
             print_status(ret);
             ret = ok;

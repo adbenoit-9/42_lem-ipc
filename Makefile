@@ -6,13 +6,13 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/28 16:29:13 by adbenoit          #+#    #+#              #
-#    Updated: 2023/01/25 16:20:14 by adbenoit         ###   ########.fr        #
+#    Updated: 2023/01/25 17:16:08 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COMPILATION
 CC		= gcc
-CFLAGS 	= -Wall -Wextra -Werror -g2 -fsanitize=address
+CFLAGS 	= -Wall -Wextra -Werror
 IFLAGS 	= -I./incs
 
 UNAME	:= $(shell uname)
@@ -37,6 +37,8 @@ SRC				:=	main.c \
 					player.c \
 					target.c \
 					game.c \
+					move.c \
+					utils.c \
 					parsing.c
 
 OBJ				:= $(SRC:%.c=$(OBJ_DIR)/%.o)
@@ -89,7 +91,7 @@ re: fclean all
 
 run: $(NAME)
 
-debug: CFLAGS += -DDEBUG -DLOG
+debug: CFLAGS += -DDEBUG -DLOG -g2 -fsanitize=address
 debug: re
 
 log: CFLAGS += -DLOG

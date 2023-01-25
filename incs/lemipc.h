@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 16:07:51 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:15:10 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ t_player    index_to_player(char *map, int index);
 void        clean_env(int id, t_ipc_env *env);
 int         game_manager(t_ipc_env *env);
 int         coor_to_index(int x, int y);
+void        move(char *map, t_player *player, t_player *target);
 
 #endif

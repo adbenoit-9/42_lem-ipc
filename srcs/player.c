@@ -6,37 +6,11 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 17:04:30 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:14:22 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemipc.h"
-
-t_player    index_to_player(char *map, int index) {
-    t_player player;
-
-    player.y = index / MAP_HEIGH; 
-    if (player.y != 0) {
-        player.x = index % player.y;
-    }
-    else {
-        player.x = 0;
-    }
-    player.team = map[index] - '0';
-    return (player);
-}
-
-int coor_to_index(int x, int y) {
-    int index;
-
-    if (x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGH) {
-        index = -1;
-    }
-    else {
-        index = MAP_WIDTH * y + x;
-    }
-    return (index);
-}
 
 static bool isdead(char *map, t_player *player) {
     bool    isdead = false;
@@ -64,54 +38,6 @@ static bool isdead(char *map, t_player *player) {
         }
     }
     return (isdead);
-}
-
-static void move(char *map, t_player *player, t_player *target) {
-    t_player tmp;
-    int     dist[2];
-    int     dir[2];
-
-    tmp = *player;
-    dist[0] = abs(player->x - target->x);
-    dist[1] = abs(player->y - target->y);
-    dir[0] = player->x > target->x ? -1 : (player->x < target->x ? 1 : 0);
-    dir[1] = player->y > target->y ? -1 : (player->y < target->y ? 1 : 0);
-    if (dist[0] > 1 || dist[1] > 1) {
-        if (dist[0] > dist[1] || (dist[0] == dist[1] && rand() % 1 == 1)) {
-            if (map[coor_to_index(player->x + dir[0], player->y)] == EMPTY_TILE) {
-            player->x += dir[0];
-            }
-            else if (map[coor_to_index(player->x, player->y + dir[1])] == EMPTY_TILE) {   
-            player->y += dir[1];
-            }
-            else if (player->y - dir[1] >= 0 && player->y - dir[1] < MAP_HEIGH &&
-                map[coor_to_index(player->x, player->y - dir[1])] == EMPTY_TILE) {
-                player->y -= dir[1]; 
-            }
-            else if (player->x - dir[0] >= 0 && player->x - dir[0] < MAP_HEIGH &&
-                map[coor_to_index(player->x, player->x - dir[0])] == EMPTY_TILE) {
-                player->x -= dir[0]; 
-            }
-        }
-        else {
-            if (map[coor_to_index(player->x, player->y + dir[1])] == EMPTY_TILE) {   
-            player->y += dir[1]; 
-            }
-            else if (map[coor_to_index(player->x + dir[0], player->y)] == EMPTY_TILE) {
-            player->x += dir[0]; 
-            }
-            else if (player->x - dir[0] >= 0 && player->x - dir[0] < MAP_WIDTH &&
-                map[coor_to_index(player->x - dir[0], player->y)] == EMPTY_TILE) {
-                player->x -= dir[0]; 
-            }
-            else if (player->y - dir[1] >= 0 && player->y - dir[1] < MAP_HEIGH &&
-                map[coor_to_index(player->x, player->y - dir[1])] == EMPTY_TILE) {
-                player->y -= dir[1]; 
-            }
-        }
-    }
-    map[coor_to_index(tmp.x, tmp.y)] = EMPTY_TILE;
-    map[coor_to_index(player->x, player->y)] = player->team + '0';
 }
 
 static int  play_turn(t_ipc_env *env, t_player *player) {
