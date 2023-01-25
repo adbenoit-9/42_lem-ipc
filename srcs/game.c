@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:13:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 15:08:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:45:08 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ int game_manager(t_ipc_env *env) {
     char    team = 0;
     int     ret = ok;
     int     count_team = 0;
-    
+
+    if (env->status == in_progress) {
+        clear_map();
+    }
     display_map(env->map);
     if (env->status == not_started) {
         env->status = in_progress;
@@ -31,10 +34,6 @@ int game_manager(t_ipc_env *env) {
         env->status = game_over;
         ret = game_over;
         printf("\033[33;1m[GAME OVER] The winner is the team %c.\033[0m\n", team);
-    }
-    else {
-        sleep(1);
-        clear_map();
     }
     return (ret);
 }

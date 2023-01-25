@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 18:00:45 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:23:54 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include "msg.h"
 
 # define SHARED_FILE    "shared_memory"
-# define MAP_WIDTH      3
-# define MAP_HEIGH      1
+# define MAP_WIDTH      35
+# define MAP_HEIGH      20
 # define MAP_LENGTH     (MAP_WIDTH * MAP_HEIGH)
 
 # define EMPTY_TILE     '0'
