@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 17:14:22 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:16:45 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static bool isdead(char *map, t_player *player) {
         for (int j = i + 1; j < 8 && isdead != true; j++) {
             if (neighbors[i] != -1 && neighbors[j] != -1 &&
                     map[neighbors[i]] != EMPTY_TILE &&
-                    map[neighbors[i]] != player->team &&
+                    map[neighbors[i]] != player->team + '0' &&
                     map[neighbors[i]] == map[neighbors[j]]) {
                 isdead = true;
 #ifdef LOG
@@ -61,7 +61,8 @@ int play_game(t_ipc_env *env, t_player *player) {
     int ret = ok;
     int x,y;
 
-    while (player->x == -1 && player->y == -1) {
+    if (player->x == -1 && player->y == -1 &&
+        (env->status == not_started || env->status == in_progress)) {
         x = rand() % MAP_WIDTH;
         y = rand() % MAP_HEIGH;
         if (env->map[coor_to_index(x, y)] == EMPTY_TILE) {
@@ -74,11 +75,14 @@ int play_game(t_ipc_env *env, t_player *player) {
             env->map[coor_to_index(player->x, player->y)] = '0' + player->team;
         }
     }
-    if (env->status == in_progress) {
+    else if (env->status == in_progress) {
         ret = play_turn(env, player);
     }
-    else if (env->status == game_over) {
+    if (env->status == game_over && player->x != -1) {
         ret = player_won;
+    }
+    else if (env->status == game_over) {
+        ret = game_over;
     }
     else if (env->status == interrupted) {
         ret = interrupted;

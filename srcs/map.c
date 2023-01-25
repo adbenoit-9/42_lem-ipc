@@ -6,14 +6,14 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 12:29:07 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 18:04:25 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:59:00 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemipc.h"
 
 int clear_map(void) {
-    int n = MAP_WIDTH;
+    int n = MAP_HEIGH;
     char erase[8 * n];
 
     for (int i = 0; i < n; i++) {

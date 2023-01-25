@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 17:37:43 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:11:21 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@ static void print_status(int status) {
         "\033[32;1m[GAME OVER] Congratulations, you won the game !\033[0m",
         "\033[31;1m[GAME OVER] You lose the game.\33[0m"
     };
-    for (int i = 0; i < 4; i++) {
-        if (status == i + interrupted){
-            printf("%s\n", str[i]);
-        }
+
+    if (status >= interrupted) {
+        printf("%s\n", str[status - interrupted]);
     }
 }
 
@@ -84,9 +83,6 @@ int main(int ac, char **av)
     if (ret == PARS_OK) {
         signal(SIGINT, &handle_signal);
         signal(SIGKILL, &handle_signal);
-        signal(SIGABRT, &handle_signal);
-        signal(SIGFPE, &handle_signal);
-        signal(SIGSEGV, &handle_signal);
         signal(SIGTERM, &handle_signal);
         signal(SIGQUIT, &handle_signal);
         env = setup_env(&id);
