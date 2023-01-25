@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:52:35 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 16:19:40 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 19:17:56 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@
 
 # define MAX_TEAM	(uint8_t)9
 
-int parsing(char **av, t_player *player);
+int	parsing(char **av, t_player *player);
 
 #endif

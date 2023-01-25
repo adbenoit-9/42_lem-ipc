@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:06:06 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/24 14:50:10 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 19:17:17 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 # include "player.h"
 # include <sys/types.h>
 
-typedef struct mymsg {
-    long int    team;
-    char        target[sizeof(t_player)];    
-}   t_msg;
+typedef struct	mymsg {
+	long int	team;
+	char		target[sizeof(t_player)];    
+}				t_msg;
 
 #endif

@@ -6,14 +6,15 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 17:13:37 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 18:57:42 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/25 19:14:52 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemipc.h"
 
-t_player    index_to_player(char *map, int index) {
-    t_player player;
+t_player    index_to_player(char *map, int index)
+{
+    t_player    player;
 
     player.y = index / MAP_WIDTH; 
     player.x = index % MAP_WIDTH;
