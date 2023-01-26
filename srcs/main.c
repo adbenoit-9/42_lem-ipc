@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 19:09:57 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/26 01:36:51 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ static int	lemipc(t_ipc_env *env, t_player *player)
 	ret = semop(env->sem, &sem_lock, 1);
 	if (ret == -1) {
 		if (errno == EINTR) {
-#ifdef DEBUG
-		perror("[WARNING] semop");
-#endif
+			PRINT_DEBUG("[WARNING] semop: Interrupted system call");
 		}
 		else {
 			ret = ko;

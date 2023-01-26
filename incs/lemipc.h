@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:53:43 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 19:16:51 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/26 01:39:18 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <signal.h>
 # include "parsing.h"
 # include "msg.h"
+# include "debug.h"
 
 # define SHARED_FILE	"shared_memory"
 # define MAP_WIDTH		35

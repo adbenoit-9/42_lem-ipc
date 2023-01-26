@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 19:10:57 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/26 01:29:54 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ static bool	isdead(char *map, t_player *player)
 					map[neighbors[i]] != player->team + '0' &&
 					map[neighbors[i]] == map[neighbors[j]]) {
 				isdead = true;
-#ifdef LOG
-				printf("\033[31m[DEAD] Killed by team %c at (%d, %d)\033[0m\n",
-					map[neighbors[i]], player->x, player->y);
-#endif
+				PRINT_LOG("\033[31m", "DEAD", "Killed by ",
+					map[neighbors[i]] - '0', player->x, player->y);
 			}
 		}
 	}
@@ -71,10 +69,8 @@ int	play_game(t_ipc_env *env, t_player *player)
 		if (env->map[coor_to_index(x, y)] == EMPTY_TILE) {
 			player->x = x;
 			player->y = y;
-#ifdef LOG
-			printf("\033[33m[INFO] Player of team %d at (%d, %d)\033[0m\n",
-				player->team, player->x, player->y);              
-#endif
+			PRINT_LOG("\033[33m", "INFO", "Player of ", player->team,
+				player->x, player->y)
 			env->map[coor_to_index(player->x, player->y)] = '0' + player->team;
 		}
 	}

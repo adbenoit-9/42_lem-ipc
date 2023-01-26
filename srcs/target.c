@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:20:29 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 19:14:23 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/26 01:34:12 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	send_target(int id, t_player *target, int team)
 {
-	struct mymsg	msg;
+	t_msg			msg;
 	size_t			size = sizeof(t_player);
 	int				ret;
 	
@@ -22,15 +22,13 @@ static void	send_target(int id, t_player *target, int team)
 	msg.team = team;
 	ret = msgsnd(id, &msg, size, IPC_NOWAIT);
 	if (ret >= 0) {
-#ifdef DEBUG
-		printf("[SEND] Target team %d on (%d, %d)\n", target->team, target->x, target->y);
-#endif
+		PRINT_LOG("\033[0m", "SEND", "Target ", target->team, target->x, target->y);
 	}
 }
 
 static t_player	recv_target(int id, int team)
 {
-	struct mymsg	msg;
+	t_msg			msg;
 	size_t			size = sizeof(t_player);
 	int				ret = ok;
 	t_player		target;
@@ -40,9 +38,7 @@ static t_player	recv_target(int id, int team)
 	ret = msgrcv(id, &msg, size, team, IPC_NOWAIT);
 	if (ret >= 0) {
 		memcpy(&target, msg.target, sizeof(t_player));
-#ifdef DEBUG
-		printf("[RECV] Target team %d on (%d, %d)\n", target.team, target.x, target.y);
-#endif
+		PRINT_LOG("\033[0m", "RECV", "Target ", target.team, target.x, target.y);
 	}
 	return (target);
 }
