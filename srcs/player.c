@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/26 01:29:54 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/01/26 09:58:25 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	play_game(t_ipc_env *env, t_player *player)
 		if (env->map[coor_to_index(x, y)] == EMPTY_TILE) {
 			player->x = x;
 			player->y = y;
-			PRINT_LOG("\033[33m", "INFO", "Player of ", player->team,
+			PRINT_LOG("\033[34m", "INFO", "Player of ", player->team,
 				player->x, player->y)
 			env->map[coor_to_index(player->x, player->y)] = '0' + player->team;
 		}
