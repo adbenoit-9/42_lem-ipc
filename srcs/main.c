@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/26 01:36:51 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/01 17:30:29 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int	main(int ac, char **av)
 	ret = parsing(&av[1], &player);
 	if (ret == PARS_OK) {
 		signal(SIGINT, &handle_signal);
-		signal(SIGKILL, &handle_signal);
 		signal(SIGTERM, &handle_signal);
 		signal(SIGQUIT, &handle_signal);
 		env = setup_env(&id);
