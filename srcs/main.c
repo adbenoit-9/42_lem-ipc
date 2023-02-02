@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/02/02 16:34:01 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:42:40 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static void	handle_signal(int signal)
 
 static void	print_status(int status)
 {
-	char	*str[] = {
+	static char	*str[] = {
 		"\033[33;1m[QUIT] Game interrupted.\033[0m",
 		"\033[33;1m[QUIT] You left the game.\033[0m",
 		"\033[32;1m[GAME OVER] Congratulations, you won the game !\033[0m",
 		"\033[31;1m[GAME OVER] You lose the game.\33[0m"
-	};
+		};
 
 	if (status >= interrupted) {
 		printf("%s\n", str[status - interrupted]);
