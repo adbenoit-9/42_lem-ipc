@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 17:14:26 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 19:09:39 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:16:01 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,42 +17,42 @@ static void	better_move_x(char *map, t_player *player, int dir_x, int dir_y)
 	if (map[coor_to_index(player->x + dir_x, player->y)] == EMPTY_TILE) {
 		player->x += dir_x;
 	}
-	else if (map[coor_to_index(player->x, player->y + dir_y)] == EMPTY_TILE) {   
+	else if (map[coor_to_index(player->x, player->y + dir_y)] == EMPTY_TILE) {
 		player->y += dir_y;
 	}
 	else if (coor_to_index(player->x, player->y - dir_y) != -1 &&
 		map[coor_to_index(player->x, player->y - dir_y)] == EMPTY_TILE) {
-		player->y -= dir_y; 
+		player->y -= dir_y;
 	}
 	else if (coor_to_index(player->x, player->x - dir_x) != -1 &&
 		map[coor_to_index(player->x, player->x - dir_x)] == EMPTY_TILE) {
-		player->x -= dir_x; 
+		player->x -= dir_x;
 	}
 }
 
 static	void better_move_y(char *map, t_player *player, int dir_x, int dir_y)
 {
-	if (map[coor_to_index(player->x, player->y + dir_y)] == EMPTY_TILE) {   
-		player->y += dir_y; 
+	if (map[coor_to_index(player->x, player->y + dir_y)] == EMPTY_TILE) {
+		player->y += dir_y;
 	}
 	else if (map[coor_to_index(player->x + dir_x, player->y)] == EMPTY_TILE) {
-		player->x += dir_x; 
+		player->x += dir_x;
 	}
 	else if (coor_to_index(player->x - dir_x, player->y) != -1 &&
 		map[coor_to_index(player->x - dir_x, player->y)] == EMPTY_TILE) {
-		player->x -= dir_x; 
+		player->x -= dir_x;
 	}
 	else if (coor_to_index(player->x, player->y - dir_y) != -1 &&
 		map[coor_to_index(player->x, player->y - dir_y)] == EMPTY_TILE) {
-		player->y -= dir_y; 
+		player->y -= dir_y;
 	}
 }
 
 void	move(char *map, t_player *player, t_player *target)
 {
 	t_player	tmp;
-	int			dist[2];
-	int			dir[2];
+	int		dist[2];
+	int		dir[2];
 
 	tmp = *player;
 	dist[0] = abs(player->x - target->x);

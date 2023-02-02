@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:06:06 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/26 01:09:24 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:37:52 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 typedef struct	s_msg {
 	long int	team;
-	char		target[sizeof(t_player)];    
-}				t_msg;
+	char		target[sizeof(t_player)];
+}		t_msg;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:20:29 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/26 01:34:12 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:31:13 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	send_target(int id, t_player *target, int team)
 	t_msg			msg;
 	size_t			size = sizeof(t_player);
 	int				ret;
-	
+
 	memcpy(msg.target, target, sizeof(t_player));
 	msg.team = team;
 	ret = msgsnd(id, &msg, size, IPC_NOWAIT);
@@ -32,7 +32,7 @@ static t_player	recv_target(int id, int team)
 	size_t			size = sizeof(t_player);
 	int				ret = ok;
 	t_player		target;
-	
+
 	target.x = -1;
 	target.y = -1;
 	ret = msgrcv(id, &msg, size, team, IPC_NOWAIT);
@@ -46,14 +46,14 @@ static t_player	recv_target(int id, int team)
 static bool	get_target_new_coor(char *map, t_player *target)
 {
 	bool	isfound = false;
-	int		neighbors[8] = {coor_to_index(target->x, target->y - 1),   // NORTH
-						coor_to_index(target->x, target->y + 1),       // SOUTH
-						coor_to_index(target->x + 1, target->y),       // EST
-						coor_to_index(target->x - 1, target->y),       // OUEST
-						coor_to_index(target->x + 1, target->y - 1),   // NORTH-EST
-						coor_to_index(target->x - 1, target->y - 1),   // NORTH-OUEST
-						coor_to_index(target->x + 1, target->y + 1),   // SUD-EST
-						coor_to_index(target->x - 1, target->y + 1)};  // SUD-OUEST
+	int	neighbors[8] = {coor_to_index(target->x, target->y - 1),	// NORTH
+				coor_to_index(target->x, target->y + 1),	// SOUTH
+				coor_to_index(target->x + 1, target->y),	// EST
+				coor_to_index(target->x - 1, target->y),	// OUEST
+				coor_to_index(target->x + 1, target->y - 1),	// NORTH-EST
+				coor_to_index(target->x - 1, target->y - 1),	// NORTH-OUEST
+				coor_to_index(target->x + 1, target->y + 1),	// SUD-EST
+				coor_to_index(target->x - 1, target->y + 1)};	// SUD-OUEST
 
 	for (int i = 0; i < 8 && isfound == false; i++) {
 		if (neighbors[i] != -1 && map[neighbors[i]] == target->team + '0') {
@@ -68,27 +68,27 @@ static t_player	get_new_target(t_ipc_env *env, t_player *player)
 {
 	t_player	target;
 
-	target.x = -1;    
-	target.y = -1;    
+	target.x = -1;
+	target.y = -1;
 	for (int i = coor_to_index(player->x, player->y);
-			i < MAP_LENGTH && target.x == -1; i++) {
+	    i < MAP_LENGTH && target.x == -1; i++) {
 		if (env->map[i] != player->team + '0' && env->map[i] != '0') {
 			target = index_to_player(env->map, i);
 			target.team = env->map[i] - '0';
 		}
 	}
 	for (int i = coor_to_index(player->x, player->y);
-			i >= 0 && target.x == -1; i--) {
+	    i >= 0 && target.x == -1; i--) {
 		if (env->map[i] != player->team + '0' && env->map[i] != '0') {
 			target = index_to_player(env->map, i);
 			target.team = env->map[i] - '0';
 		}
 	}
-	return (target);  
+	return (target);
 }
 
 t_player	get_target(t_ipc_env *env, t_player *player)
-{    
+{
 	t_player	target;
 
 	target = recv_target(env->msqid, player->team);

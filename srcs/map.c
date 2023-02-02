@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 12:29:07 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 19:09:47 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:15:36 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	clear_map(void)
 {
-	int		n = MAP_HEIGH;
+	int	n = MAP_HEIGH;
 	char	erase[8 * n];
 
 	for (int i = 0; i < n; i++) {
@@ -27,7 +27,7 @@ int	clear_map(void)
 int	display_map(char *map)
 {
 	char	dmap[(MAP_WIDTH + 1) * MAP_HEIGH + 1];
-	int		j = 0;
+	int	j = 0;
 
 	dmap[0] = 0;
 	for (int i = 0; i < MAP_HEIGH; i++) {

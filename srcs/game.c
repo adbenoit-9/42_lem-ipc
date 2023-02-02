@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:13:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 19:07:30 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:35:05 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int	game_manager(t_ipc_env *env)
 {
 	char	team = 0;
-	int		ret = ok;
-	int		count_team = 0;
+	int	ret = ok;
+	int	count_team = 0;
 
 	if (env->status == in_progress) {
 		clear_map();

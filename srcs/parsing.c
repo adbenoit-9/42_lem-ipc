@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:52:08 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 19:12:23 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:20:04 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void print_error(int err, char *str)
 				EM_BADARG,
 				EM_NOARG,
 				EM_BADTEAM};
-	
+
 	if (err == E_BADTEAM) {
 		dprintf(STDERR_FILENO, err_mess[err - 1], str, MAX_TEAM);
 	}
@@ -31,7 +31,7 @@ static int  set_team(char *team, t_player *player)
 {
 	int     ret = PARS_OK;
 	int16_t team_id;
-	
+
 	if (team == NULL) {
 		ret = E_NODARG;
 	}
@@ -66,11 +66,11 @@ static int  print_help(char *str, t_player *player)
 
 int parsing(char **av, t_player *player)
 {
-	int ret = PARS_OK;
-	int i;
-	int	    (*flags_handler[])(char *, t_player *) = {
-						set_team, print_help};
-	char    *flag_list[] = {"--team", "--help"};
+	int		ret = PARS_OK;
+	int		i;
+	static int	(*flags_handler[])(char *, t_player *) = {
+				set_team, print_help};
+	static char	*flag_list[] = {"--team", "--help"};
 
 	player->x = -1;
 	player->y = -1;
@@ -92,5 +92,5 @@ int parsing(char **av, t_player *player)
 			print_error(ret, av[i - 1]);
 		}
 	}
-	return (ret);    
+	return (ret);
 }

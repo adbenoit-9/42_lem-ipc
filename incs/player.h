@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:08:39 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/25 19:18:45 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:36:56 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <stdbool.h>
 
 typedef struct	s_player {
-	int		x;
-	int		y;
+	int	x;
+	int	y;
 	uint8_t	team;
-}   t_player;
+}		t_player;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:45:28 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/26 01:37:39 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:35:57 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void	*init_env(key_t key, t_ipc_env *env)
 void	*setup_env(int *id)
 {
 	t_ipc_env	*ptr = 0;
-	int			isset = 0;
+	int		isset = 0;
 	key_t		key;
-	
+
 	key = ftok(SHARED_FILE, 1);
 	*id = shmget(key, sizeof(t_ipc_env), IPC_CREAT | IPC_EXCL | 0660);
 	if (errno == EEXIST) {
@@ -70,7 +70,7 @@ void	clean_env(int id, t_ipc_env *env)
 {
 	struct sembuf	sem_lock = {0, -1 , SEM_UNDO};
 	struct sembuf	sem_unlock = {0, 1 , SEM_UNDO};
-	
+
 	semop(env->sem, &sem_lock, 1);
 	--env->nb_proc;
 	if (env->nb_proc == 0) {

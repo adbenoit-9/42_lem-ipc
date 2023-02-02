@@ -6,13 +6,13 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:32:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/02/01 17:30:29 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:34:01 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemipc.h"
 
-int g_signal_catch = 0;
+static int	g_signal_catch = 0;
 
 static void	handle_signal(int signal)
 {
@@ -36,7 +36,7 @@ static void	print_status(int status)
 
 static int	lemipc(t_ipc_env *env, t_player *player)
 {
-	int				ret = ok;
+	int		ret = ok;
 	struct sembuf	sem_lock = {0, -1 , SEM_UNDO};
 	struct sembuf	sem_unlock = {0, 1 , SEM_UNDO};
 
@@ -73,11 +73,11 @@ static int	lemipc(t_ipc_env *env, t_player *player)
 
 int	main(int ac, char **av)
 {
-	int			ret = ok;
+	int		ret = ok;
 	t_player	player;
 	t_ipc_env	*env;
-	int			id = 0;
-	
+	int		id = 0;
+
 	(void)ac;
 	ret = parsing(&av[1], &player);
 	if (ret == PARS_OK) {

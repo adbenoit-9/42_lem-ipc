@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/01/26 09:58:25 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:29:24 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,25 @@
 static bool	isdead(char *map, t_player *player)
 {
 	bool	isdead = false;
-	int		neighbors[8] = {coor_to_index(player->x, player->y - 1),   // NORTH
-						coor_to_index(player->x, player->y + 1),       // SOUTH
-						coor_to_index(player->x + 1, player->y),       // EST
-						coor_to_index(player->x - 1, player->y),       // OUEST
-						coor_to_index(player->x + 1, player->y - 1),   // NORTH-EST
-						coor_to_index(player->x - 1, player->y - 1),   // NORTH-OUEST
-						coor_to_index(player->x + 1, player->y + 1),   // SUD-EST
-						coor_to_index(player->x - 1, player->y + 1)};  // SUD-OUEST
+	int	neighbors[8] = {coor_to_index(player->x, player->y - 1),	// NORTH
+				coor_to_index(player->x, player->y + 1),	// SOUTH
+				coor_to_index(player->x + 1, player->y),	// EST
+				coor_to_index(player->x - 1, player->y),	// OUEST
+				coor_to_index(player->x + 1, player->y - 1),	// NORTH-EST
+				coor_to_index(player->x - 1, player->y - 1),	// NORTH-OUEST
+				coor_to_index(player->x + 1, player->y + 1),	// SUD-EST
+				coor_to_index(player->x - 1, player->y + 1)};	// SUD-OUEST
 
 	for (int i = 0; i < 8 && isdead != true; i++) {
 		for (int j = i + 1; j < 8 && isdead != true; j++) {
 			if (neighbors[i] != -1 && neighbors[j] != -1 &&
-					map[neighbors[i]] != EMPTY_TILE &&
-					map[neighbors[i]] != player->team + '0' &&
-					map[neighbors[i]] == map[neighbors[j]]) {
+			    map[neighbors[i]] != EMPTY_TILE &&
+			    map[neighbors[i]] != player->team + '0' &&
+			    map[neighbors[i]] == map[neighbors[j]]) {
 				isdead = true;
 				PRINT_LOG("\033[31m", "DEAD", "Killed by ",
-					map[neighbors[i]] - '0', player->x, player->y);
+						map[neighbors[i]] - '0',
+						player->x, player->y);
 			}
 		}
 	}
@@ -41,7 +42,7 @@ static bool	isdead(char *map, t_player *player)
 
 static int	play_turn(t_ipc_env *env, t_player *player)
 {
-	int			ret = ok;
+	int		ret = ok;
 	t_player	target;
 
 	if (isdead(env->map, player) == true) {
@@ -63,7 +64,7 @@ int	play_game(t_ipc_env *env, t_player *player)
 	int	x,y;
 
 	if (player->x == -1 && player->y == -1 &&
-		(env->status == not_started || env->status == in_progress)) {
+	    (env->status == not_started || env->status == in_progress)) {
 		x = rand() % MAP_WIDTH;
 		y = rand() % MAP_HEIGH;
 		if (env->map[coor_to_index(x, y)] == EMPTY_TILE) {
