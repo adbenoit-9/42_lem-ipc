@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:20:29 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/02/02 16:31:13 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 17:00:09 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static void	send_target(int id, t_player *target, int team)
 	msg.team = team;
 	ret = msgsnd(id, &msg, size, IPC_NOWAIT);
 	if (ret >= 0) {
-		PRINT_LOG("\033[0m", "SEND", "Target ", target->team, target->x, target->y);
+		PRINT_LOG("\033[0m", "SEND", "Target ", target->team,
+			  target->x, target->y);
 	}
 }
 
@@ -38,7 +39,8 @@ static t_player	recv_target(int id, int team)
 	ret = msgrcv(id, &msg, size, team, IPC_NOWAIT);
 	if (ret >= 0) {
 		memcpy(&target, msg.target, sizeof(t_player));
-		PRINT_LOG("\033[0m", "RECV", "Target ", target.team, target.x, target.y);
+		PRINT_LOG("\033[0m", "RECV", "Target ", target.team, target.x,
+			  target.y);
 	}
 	return (target);
 }

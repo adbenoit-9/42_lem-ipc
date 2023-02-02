@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 13:50:58 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/02/02 16:29:24 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:59:35 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static bool	isdead(char *map, t_player *player)
 			    map[neighbors[i]] == map[neighbors[j]]) {
 				isdead = true;
 				PRINT_LOG("\033[31m", "DEAD", "Killed by ",
-						map[neighbors[i]] - '0',
-						player->x, player->y);
+					  map[neighbors[i]] - '0',
+					  player->x, player->y);
 			}
 		}
 	}
@@ -71,7 +71,7 @@ int	play_game(t_ipc_env *env, t_player *player)
 			player->x = x;
 			player->y = y;
 			PRINT_LOG("\033[34m", "INFO", "Player of ", player->team,
-				player->x, player->y)
+				  player->x, player->y)
 			env->map[coor_to_index(player->x, player->y)] = '0' + player->team;
 		}
 	}
