@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:52:08 by adbenoit          #+#    #+#             */
-/*   Updated: 2023/02/02 16:20:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2023/02/02 17:14:30 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static int  print_help(char *str, t_player *player)
 {
 	(void)str;
 	(void)player;
-	printf("Usage\n./lemipc [options]\n\nOptions\n");
-	printf("--help         print help and exit\n");
-	printf("--team         define the team of the player (must be a number between 1 and 9)\n");
+	printf("Usage\n./lemipc [options]\n\nOptions\n"
+		   "--help         print help and exit\n"
+		   "--team         define the team of the player (must be a number between 1 and 9)\n");
 	return (PARS_STOP);
 }
 
